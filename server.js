@@ -5,6 +5,7 @@ const app = express();
 const User = require("./models/User");
 const authRoutes = require("./routes/authRoutes");
 const protect = require("./middleware/authMiddleware");
+const taskRoutes = require("./routes/taskRoutes");
 
 //connect Database
 connectDB();
@@ -12,6 +13,7 @@ connectDB();
 //Middleware
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/tasks", taskRoutes);
 //test route
 app.get("/", (req, res) => {
   res.send("API is running...");
