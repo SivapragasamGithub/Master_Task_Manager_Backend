@@ -20,4 +20,17 @@ const createTask = async (req, res) => {
   }
 };
 
-module.exports = { createTask };
+const getMyTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(tasks);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { createTask, getMyTasks };
