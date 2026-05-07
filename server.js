@@ -6,6 +6,13 @@ const User = require("./models/User");
 const authRoutes = require("./routes/authRoutes");
 const protect = require("./middleware/authMiddleware");
 const taskRoutes = require("./routes/taskRoutes");
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 
 //connect Database
 connectDB();
