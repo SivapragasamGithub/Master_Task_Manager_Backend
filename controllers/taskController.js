@@ -33,4 +33,31 @@ const getMyTasks = async (req, res) => {
   }
 };
 
-module.exports = { createTask, getMyTasks };
+const updateTask = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    // Check task exists
+    if (!task) {
+      return res.status(404).json({
+        message: "Task not found",
+      });
+    }
+    // Check task owner
+    if (task.user.toString() !== req.user._id.toString()) {
+      return res.status(401).json({
+        message: "Not Authorized",
+      });
+    }
+    // Update task
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { createTask, getMyTasks, updateTask };
